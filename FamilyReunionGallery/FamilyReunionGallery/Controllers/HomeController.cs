@@ -18,14 +18,13 @@ namespace FamilyReunionGallery.Controllers
         }
         public ActionResult Dashboard()
         {
-            var model = new DashboardViewModel();
             if ((string)Session["ValidSession"] == "valid")
             {
                 return View();
             }
             else
             {
-                return View("~/Views/Home/Index.cshtml", model);
+                return View("~/Views/Home/Index.cshtml", new DashboardViewModel());
             }
             
         }
@@ -52,12 +51,12 @@ namespace FamilyReunionGallery.Controllers
             model.ThumbImages = new List<FileInfo>();
             model.AlbumnImagePath = "JoelleBday";
             model.AlbumTitle = "Joelle's Birthday Camping Trip";
-            foreach (var imgPath in Directory.GetFiles(Server.MapPath("~/Content/images/JoelleBday/fulls"), "*.jpg"))
+            foreach (var imgPath in Directory.GetFiles(Server.MapPath("~/Content/images/JoelleBday/fulls"), "*.JPG"))
             {
                 var img = new FileInfo(imgPath);
                 model.FullImages.Add(img);
             }
-            foreach (var imgPath in Directory.GetFiles(Server.MapPath("~/Content/images/JoelleBday/thumbs"), "*.jpg"))
+            foreach (var imgPath in Directory.GetFiles(Server.MapPath("~/Content/images/JoelleBday/thumbs"), "*.JPG"))
             {
                 var img = new FileInfo(imgPath);
                 model.ThumbImages.Add(img);
@@ -68,8 +67,7 @@ namespace FamilyReunionGallery.Controllers
             }
             else
             {
-                var indexModel = new DashboardViewModel();
-                return View("~/Views/Home/Index.cshtml", indexModel);
+                return View("~/Views/Home/Index.cshtml", new DashboardViewModel());
             }
 
         }
