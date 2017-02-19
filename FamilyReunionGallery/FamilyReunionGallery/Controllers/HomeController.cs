@@ -68,7 +68,8 @@ namespace FamilyReunionGallery.Controllers
             }
             else
             {
-                return View("~/Views/Home/Index.cshtml");
+                var indexModel = new DashboardViewModel();
+                return View("~/Views/Home/Index.cshtml", indexModel);
             }
 
         }
