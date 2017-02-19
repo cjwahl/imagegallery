@@ -1,0 +1,35 @@
+﻿@model FamilyReunionGallery.Models.GalleryViewModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Model.AlbumTitle</title>
+    @Styles.Render("~/Content/css")
+    
+</head>
+<body>
+    <div id="wrapper">
+        <header id="header">
+            <h1><strong>@Model.AlbumTitle</strong></h1>
+            <nav>
+                <ul>
+                   <li>@Html.ActionLink("Back to Albums", "Dashboard")</li>
+                </ul>
+            </nav>
+        </header>
+        <div id="main">
+            @for (var i = 0; i < Model.FullImages.Count; i++)
+            {
+                <article class="thumb">
+                    <a href="@Url.Content(String.Format("~/Content/images/{0}/fulls/{1}",Model.AlbumnImagePath, Model.FullImages[i].Name))" class="image"><img src="@Url.Content(String.Format("~/Content/images/{0}/thumbs/{1}",Model.AlbumnImagePath, Model.ThumbImages[i].Name))" alt="" /></a>
+                </article>
+            }
+
+        </div>
+    </div>
+   
+
+                @Scripts.Render("~/bundles/js")
+</body>
+</html>

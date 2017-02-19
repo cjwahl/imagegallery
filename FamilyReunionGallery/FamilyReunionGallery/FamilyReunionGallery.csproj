@@ -152,41 +152,101 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\GalleryViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\creative.css" />
+    <Content Include="Content\css\creative.min.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\main.css" />
-    <Content Include="Content\images\fulls\01.jpg" />
-    <Content Include="Content\images\thumbs\01.jpg" />
+    <Content Include="Content\css\images\arrow.svg" />
+    <Content Include="Content\css\images\close.svg" />
+    <Content Include="Content\css\images\spinner.svg" />
+    <Content Include="Content\images\Dashboard\173_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\fulls\154.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\155.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\156.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\157.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\158.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\159.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\160.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\161.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\162.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\163.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\164.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\165.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\166.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\167.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\168.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\169.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\170.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\171.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\172.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\173.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\174.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\175.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\176.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\177.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\178.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\188.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\189.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\190.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\191.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\192.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\193.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\194.JPG" />
+    <Content Include="Content\images\JoelleBday\fulls\196.JPG" />
+    <Content Include="Content\images\JoelleBday\thumbs\155._thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\156._thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\157_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\158_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\159_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\160_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\161_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\162_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\163_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\164_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\165_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\166_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\167_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\168_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\169_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\170_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\171_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\172_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\173_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\174_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\175_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\176_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\177_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\178_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\188_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\189_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\190_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\191_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\192_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\193_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\194_thumb.jpg" />
+    <Content Include="Content\images\JoelleBday\thumbs\196_thumb.jpg" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\creative.js" />
+    <Content Include="Scripts\creative.min.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Content\images\JoelleBday\thumbs\154_thumb.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\ai.0.22.9-build00167.js" />
-    <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.poptrox.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\main.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\skel.min.js" />
     <Content Include="Scripts\util.js" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -197,7 +257,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Gallery.cshtml" />
+    <Content Include="Views\Home\JoelleBday.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -208,7 +268,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
