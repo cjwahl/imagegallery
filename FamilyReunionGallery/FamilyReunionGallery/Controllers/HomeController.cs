@@ -30,7 +30,7 @@ namespace FamilyReunionGallery.Controllers
                 {
                     model.Years.Add(Convert.ToInt32(album.Year));
                 }
-                model.Years = model.Years.OrderByDescending(i => i);
+                model.Years = model.Years.OrderByDescending(i => i).ToList();
 
                 return View(model);
             }
