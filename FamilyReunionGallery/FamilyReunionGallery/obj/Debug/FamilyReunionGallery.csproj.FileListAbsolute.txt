@@ -11,7 +11,6 @@ C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\rosl
 C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\roslyn\vbc.exe
 C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\roslyn\VBCSCompiler.exe
 C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\roslyn\VBCSCompiler.exe.config
-C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\FamilyReunionGallery.dll.config
 C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\FamilyReunionGallery.dll
 C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\FamilyReunionGallery.pdb
 C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\Antlr3.Runtime.dll
