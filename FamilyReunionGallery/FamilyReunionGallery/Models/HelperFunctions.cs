@@ -22,31 +22,29 @@ namespace FamilyReunionGallery.Models
 
         public static Bitmap ResizeImage(Image image, int width, int height)
         {
-            Image originalImage = image;
 
-            if (originalImage.PropertyIdList.Contains(0x0112))
+            if (image.PropertyIdList.Contains(274))
             {
-                int rotationValue = originalImage.GetPropertyItem(0x0112).Value[0];
+                int rotationValue = image.GetPropertyItem(274).Value[0];
                 switch (rotationValue)
                 {
                     case 1:
                         break;
 
                     case 8:
-                        originalImage.RotateFlip(rotateFlipType: RotateFlipType.Rotate270FlipNone);
+                        image.RotateFlip(rotateFlipType: RotateFlipType.Rotate270FlipNone);
                         break;
 
                     case 3:
-                        originalImage.RotateFlip(rotateFlipType: RotateFlipType.Rotate180FlipNone);
+                        image.RotateFlip(rotateFlipType: RotateFlipType.Rotate180FlipNone);
                         break;
 
                     case 6:
-                        originalImage.RotateFlip(rotateFlipType: RotateFlipType.Rotate90FlipNone);
+                        image.RotateFlip(rotateFlipType: RotateFlipType.Rotate90FlipNone);
                         break;
                 }
             }
-
-            image = originalImage;
+            
 
             var destRect = new Rectangle(0, 0, width, height);
             var destImage = new Bitmap(width, height);
