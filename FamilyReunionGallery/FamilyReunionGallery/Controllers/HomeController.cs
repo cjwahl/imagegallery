@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -30,7 +29,8 @@ namespace FamilyReunionGallery.Controllers
                 {
                     model.Years.Add(Convert.ToInt32(album.Year));
                 }
-                model.Years = model.Years.OrderByDescending(i => i).ToList();
+
+                model.Years = model.Years.Distinct().OrderByDescending(i => i).ToList();
 
                 return View(model);
             }
@@ -54,7 +54,7 @@ namespace FamilyReunionGallery.Controllers
                 {
                     model.Years.Add(Convert.ToInt32(album.Year));
                 }
-                model.Years = model.Years.OrderByDescending(i => i).ToList();
+                model.Years = model.Years.Distinct().OrderByDescending(i => i).ToList();
                 return View(model);
             }
             else
@@ -67,24 +67,7 @@ namespace FamilyReunionGallery.Controllers
         public ActionResult Gallery(string album)
         {
             var model = new GalleryViewModel(album);
-            model.FullImages = new List<FileInfo>();
-            model.ThumbImages = new List<FileInfo>();
-
-            var fullpath = String.Format("~/Content/images/{0}/fulls", model.AlbumnImagePath);
-            var thumbpath = String.Format("~/Content/images/{0}/thumbs", model.AlbumnImagePath);
-            if (Directory.GetFiles(Server.MapPath(fullpath), "*.JPG").Any() && Directory.GetFiles(Server.MapPath(thumbpath), "*.JPG").Any())
-            {
-                foreach (var imgPath in Directory.GetFiles(Server.MapPath(fullpath), "*.JPG"))
-                {
-                    var img = new FileInfo(imgPath);
-                    model.FullImages.Add(img);
-                }
-                foreach (var imgPath in Directory.GetFiles(Server.MapPath(thumbpath), "*.JPG"))
-                {
-                    var img = new FileInfo(imgPath);
-                    model.ThumbImages.Add(img);
-                }
-            }
+            model.Album = HelperFunctions.GetAlbumImages(model.Album);
 
             if ((string)Session["ValidSession"] == "valid")
             {
@@ -101,13 +84,9 @@ namespace FamilyReunionGallery.Controllers
             var model = new UploadViewModel();
             model.AlbumDropDown = new List<SelectListItem>();
             model.Albums = HelperFunctions.GetAlbumList();
-            foreach (var directory in Directory.GetDirectories(Server.MapPath("~/Content/images")))
+            foreach (var album in model.Albums)
             {
-                var dir = directory.Split('\\').Last();
-                if (dir != "Dashboard")
-                {
-                    model.AlbumDropDown.Add(new SelectListItem() { Text = HelperFunctions.GetAlbumName(dir, model.Albums), Value = dir });
-                }
+                model.AlbumDropDown.Add(new SelectListItem() { Text = album.AlbumTitle, Value = album.Directory });
             }
 
             if ((string)Session["ValidSession"] == "valid")
@@ -129,80 +108,19 @@ namespace FamilyReunionGallery.Controllers
             var split = jsonString.Split('\n');
             var directoryName = split[3].Replace("\r", "");
             bool isSavedSuccessfully = true;
-            string fName = "";
             try
             {
-                foreach (string fileName in Request.Files)
+                foreach (string image in Request.Files)
                 {
-                    HttpPostedFileBase file = Request.Files[fileName];
-                    fName = file.FileName;
-                    if (file != null && file.ContentLength > 0 && file.ContentType.Contains("image"))
-                    {
-                        var fullDirectory = new DirectoryInfo(string.Format("{0}Content/images/{1}/fulls", Server.MapPath("/"), directoryName));
+                    HttpPostedFileBase file = Request.Files[image];
+                    var fileName = Path.GetFileName(file.FileName);
+                    var fullDirectory = new DirectoryInfo(string.Format("{0}Content/images/temp/fulls", Server.MapPath("/")));
 
-                        var name = Path.GetFileName(file.FileName);
+                    HelperFunctions.UploadImage(file, fullDirectory, directoryName, fileName);
 
-                        bool directoryExists = Directory.Exists(fullDirectory.ToString());
-                        bool fileExists = System.IO.File.Exists(string.Concat(fullDirectory.ToString(), "\\", name));
+                    var thumbDirectory = new DirectoryInfo(string.Format("{0}Content/images/temp/thumbs", Server.MapPath("/")));
 
-                        var path = string.Format("{0}\\{1}", fullDirectory.ToString(), file.FileName);
-                        if (!directoryExists)
-                        {
-                            Directory.CreateDirectory(fullDirectory.ToString());
-                        }
-                        if (!fileExists)
-                        {
-                            file.SaveAs(path);
-                        }
-
-                        Stream BitmapStream = System.IO.File.Open(path, FileMode.Open);
-
-                        Image img = Image.FromStream(BitmapStream);
-                        BitmapStream.Dispose();
-                        if (img.Width > img.Height)
-                        {
-                            img = HelperFunctions.ResizeImage(img, 1024, 768);
-                        }
-                        else
-                        {
-                            img = HelperFunctions.ResizeImage(img, 768, 1024);
-                        }
-
-                        img.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-                        var thumbDirectory = new DirectoryInfo(string.Format("{0}Content/images/{1}/thumbs", Server.MapPath("/"), directoryName));
-
-                        name = Path.GetFileName(file.FileName);
-
-                        directoryExists = Directory.Exists(thumbDirectory.ToString());
-                        fileExists = System.IO.File.Exists(string.Concat(thumbDirectory.ToString(), "\\", name));
-
-                        path = string.Format("{0}\\{1}", thumbDirectory.ToString(), file.FileName);
-                        if (!directoryExists)
-                        {
-                            Directory.CreateDirectory(thumbDirectory.ToString());
-                        }
-                        if (!fileExists)
-                        {
-                            file.SaveAs(path);
-                        }
-
-                        BitmapStream = System.IO.File.Open(path, FileMode.Open);
-
-                        img = Image.FromStream(BitmapStream);
-                        BitmapStream.Dispose();
-
-                        if (img.Width > img.Height)
-                        {
-                            img = HelperFunctions.ResizeImage(img, 642, 482);
-                        }
-                        else
-                        {
-                            img = HelperFunctions.ResizeImage(img, 482, 642);
-                        }
-
-                        img.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    }
+                    HelperFunctions.UploadImage(file, thumbDirectory, directoryName, fileName);
                 }
             }
             catch (Exception ex)
@@ -213,11 +131,11 @@ namespace FamilyReunionGallery.Controllers
 
             if (isSavedSuccessfully)
             {
-                return Json(new { Message = fName });
+                return Json(new { Message = "Success" });
             }
             else
             {
-                return Json(new { Message = "Error in saving file" });
+                return Json(new { Message = "Error saving file" });
             }
         }
 
@@ -241,10 +159,10 @@ namespace FamilyReunionGallery.Controllers
             var album = new Album();
             if (form != null)
             {
-                album.Name = form["title"].ToString();
+                album.AlbumTitle = form["title"].ToString();
                 album.Year = form["year"].ToString();
-                album.Directory = HelperFunctions.MakeValidDirectoryName(album.Name);
-                if (!HelperFunctions.CheckIfAlbumExists(album.Name))
+                album.Directory = HelperFunctions.MakeValidDirectoryName(album.AlbumTitle);
+                if (!HelperFunctions.CheckIfAlbumExists(album.AlbumTitle))
                 {
                     success = HelperFunctions.InsertNewAlbum(album);
                 }
@@ -255,31 +173,17 @@ namespace FamilyReunionGallery.Controllers
             }
             if (success)
             {
-                var directory = new DirectoryInfo(string.Format("{0}Content/images/{1}/", Server.MapPath("/"), album.Directory));
-                var directoryExists = Directory.Exists(directory.ToString());
+                HelperFunctions.CreateS3Folder(album.Directory);
 
-                if (!directoryExists)
-                {
-                    Directory.CreateDirectory(directory.ToString());
-                    directory = new DirectoryInfo(string.Format("{0}Content/images/{1}/fulls", Server.MapPath("/"), album.Directory));
-                    Directory.CreateDirectory(directory.ToString());
-                    directory = new DirectoryInfo(string.Format("{0}Content/images/{1}/thumbs", Server.MapPath("/"), album.Directory));
-                    Directory.CreateDirectory(directory.ToString());
-                }
                 if (file != null)
                 {
                     HttpPostedFileBase image = file;
-                    directory = new DirectoryInfo(string.Format("{0}Content/images/Dashboard/", Server.MapPath("/")));
 
                     var name = Path.GetFileName(image.FileName);
-
-                    bool fileExists = System.IO.File.Exists(string.Concat(directory.ToString(), "\\", name));
-                    var path = string.Format("{0}\\{1}", directory.ToString(), string.Concat(album.Directory, ".jpg"));
-
-                    if (!fileExists)
-                    {
-                        image.SaveAs(path);
-                    }
+                    var directory = new DirectoryInfo(string.Format("{0}Content/images/temp/", Server.MapPath("/")));
+                    
+                   HelperFunctions.UploadImage(image, directory, "Dashboard", string.Concat(album.Directory, ".jpg"));
+                    
                 }
             }
 

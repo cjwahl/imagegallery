@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Amazon.S3.Model;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -10,25 +11,20 @@ namespace FamilyReunionGallery.Models
     {
         public GalleryViewModel(string title)
         {
-            Data = HelperFunctions.GetSqlData();
-
-            foreach(DataRow item in Data.Rows)
+           var data = HelperFunctions.GetSqlData();
+            Album = new Album();
+            foreach(DataRow item in data.Rows)
             {
                 if(item["Name"].ToString() == title)
                 {
-                    AlbumTitle = item["Name"].ToString();
-                    AlbumnImagePath = item["Directory"].ToString();
-                    Year = item["Year"].ToString();
+                    Album.AlbumTitle = item["Name"].ToString();
+                    Album.Directory = item["Directory"].ToString();
+                    Album.Year = item["Year"].ToString();
                 }
             }
         }
 
-        public string AlbumnImagePath { get; set; }
-        public string AlbumTitle { get; set; }
-        public string Year { get; set; }
-        public List<FileInfo> FullImages { get; set; }
-        public List<FileInfo> ThumbImages { get; set; }
-        public DataTable Data { get; set; }
+        public Album Album { get; set; }
 
         
     }

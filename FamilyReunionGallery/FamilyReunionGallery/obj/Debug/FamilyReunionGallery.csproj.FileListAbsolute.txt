@@ -50,3 +50,9 @@ C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\Newt
 C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\obj\Debug\FamilyReunionGallery.csprojResolveAssemblyReference.cache
 C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\obj\Debug\FamilyReunionGallery.dll
 C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\obj\Debug\FamilyReunionGallery.pdb
+C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\AWSSDK.Core.dll
+C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\AWSSDK.S3.dll
+C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\AWSSDK.Core.pdb
+C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\AWSSDK.Core.xml
+C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\AWSSDK.S3.pdb
+C:\Users\Chris\Desktop\Family\FamilyReunionGallery\FamilyReunionGallery\bin\AWSSDK.S3.xml

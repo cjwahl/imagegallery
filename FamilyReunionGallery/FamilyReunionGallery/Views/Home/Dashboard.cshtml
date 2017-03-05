@@ -51,12 +51,12 @@
                     <div class="container">
                         <div class="no-gutter popup-gallery">
                             <div class="col-lg-4 col-sm-6">
-                                <a href="@Url.Action("Gallery", "Home", new { album = album.Name })" class="portfolio-box">
-                                    <img src="~/Content/images/Dashboard/@string.Concat(album.Directory, ".jpg")" class="img-responsive" alt="@album.Name">
+                                <a href="@Url.Action("Gallery", "Home", new { album = album.AlbumTitle })" class="portfolio-box">
+                                    <img src="@string.Concat("https://s3-us-west-2.amazonaws.com/cjwahldotcom-image-storage/", album.DirectoryImage.Key)" class="img-responsive" alt="@album.AlbumTitle">
                                     <div class="portfolio-box-caption">
                                         <div class="portfolio-box-caption-content">
                                             <div class="project-name">
-                                                @album.Name
+                                                @album.AlbumTitle
                                             </div>
                                         </div>
                                     </div>
