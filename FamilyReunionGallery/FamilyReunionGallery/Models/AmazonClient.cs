@@ -6,7 +6,7 @@ namespace FamilyReunionGallery.Models
     {
         public AmazonClient()
         {
-            S3Client = new AmazonS3Client( Amazon.RegionEndpoint.USWest2);
+            S3Client = new AmazonS3Client(Amazon.RegionEndpoint.USWest2);
             BucketName = "cjwahldotcom-image-storage";
         }
 

@@ -17,6 +17,9 @@
 		font: inherit;
 		vertical-align: baseline;
 	}
+.grid-item img { 
+    height: 500px;
+    width: 500px; }
 
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 		display: block;

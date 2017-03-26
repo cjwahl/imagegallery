@@ -23,26 +23,36 @@ namespace FamilyReunionGallery.Models
         public static Bitmap ResizeImage(Image image, int width, int height)
         {
 
-            if (image.PropertyIdList.Contains(274))
+            if (Array.IndexOf(image.PropertyIdList, 274) > -1)
             {
-                int rotationValue = image.GetPropertyItem(274).Value[0];
+                int rotationValue = (int)image.GetPropertyItem(274).Value[0];
                 switch (rotationValue)
                 {
                     case 1:
                         break;
-
-                    case 8:
-                        image.RotateFlip(rotateFlipType: RotateFlipType.Rotate270FlipNone);
+                    case 2:
+                        image.RotateFlip(RotateFlipType.RotateNoneFlipX);
                         break;
-
                     case 3:
-                        image.RotateFlip(rotateFlipType: RotateFlipType.Rotate180FlipNone);
+                        image.RotateFlip(RotateFlipType.Rotate180FlipNone);
                         break;
-
+                    case 4:
+                        image.RotateFlip(RotateFlipType.Rotate180FlipX);
+                        break;
+                    case 5:
+                        image.RotateFlip(RotateFlipType.Rotate90FlipX);
+                        break;
                     case 6:
-                        image.RotateFlip(rotateFlipType: RotateFlipType.Rotate90FlipNone);
+                        image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                        break;
+                    case 7:
+                        image.RotateFlip(RotateFlipType.Rotate270FlipX);
+                        break;
+                    case 8:
+                        image.RotateFlip(RotateFlipType.Rotate270FlipNone);
                         break;
                 }
+                image.RemovePropertyItem(274);
             }
             
 
@@ -367,6 +377,29 @@ namespace FamilyReunionGallery.Models
                 request.InputStream = new MemoryStream();
                 client.S3Client.PutObject(request);
             }
+        }
+
+        public static void DeleteImage(string key)
+        {
+            var client = new AmazonClient();
+
+            using (client.S3Client)
+            {
+                DeleteObjectRequest request = new DeleteObjectRequest();
+
+                request.BucketName = client.BucketName;
+                request.Key = key;
+
+                client.S3Client.DeleteObject(request);
+
+                request = new DeleteObjectRequest();
+
+                request.BucketName = client.BucketName;
+                request.Key = key.Replace("thumbs", "fulls");
+
+                client.S3Client.DeleteObject(request);
+            }
+
         }
     }
 }

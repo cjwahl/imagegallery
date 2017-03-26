@@ -114,6 +114,7 @@ namespace FamilyReunionGallery.Controllers
                 {
                     HttpPostedFileBase file = Request.Files[image];
                     var fileName = Path.GetFileName(file.FileName);
+                    fileName = string.Format("{0}.jpg", Guid.NewGuid());
                     var fullDirectory = new DirectoryInfo(string.Format("{0}Content/images/temp/fulls", Server.MapPath("/")));
 
                     HelperFunctions.UploadImage(file, fullDirectory, directoryName, fileName);
@@ -195,6 +196,55 @@ namespace FamilyReunionGallery.Controllers
             {
                 return View("~/Views/Home/Index.cshtml", new DashboardViewModel());
             }
+        }
+
+        public ActionResult EditAlbum()
+        {
+            if ((string)Session["ValidSession"] == "valid")
+            {
+                var model = new EditAlbumViewModel();
+
+                return View(model);
+            }
+            else
+            {
+                return View("~/Views/Home/Index.cshtml", new DashboardViewModel());
+            }
+        }
+
+        public ActionResult EditAlbumResult(EditAlbumViewModel passedModel)
+        {
+            var model = new EditAlbumViewModel();
+            model.SelectedAlbum = passedModel.SelectedAlbum;
+
+            if ((string)Session["ValidSession"] == "valid")
+            {
+                foreach(var album in model.Albums)
+                {
+                    if(album.Directory == passedModel.SelectedAlbum)
+                    {
+                        model.Album = album;
+                    }
+                }
+
+                return PartialView(model);
+            }
+            else
+            {
+                return View("~/Views/Home/Index.cshtml", new DashboardViewModel());
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Delete(string album)
+        {
+            try
+            {
+                HelperFunctions.DeleteImage(album);
+            }
+            catch { }
+
+            return Json("success");
         }
     }
 }

@@ -7,12 +7,18 @@ namespace FamilyReunionGallery
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                      "~/Scripts/jquery.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
-                      "~/Scripts/jquery.min.js",
-                      "~/Scripts/jquery.poptrox.min.js",
                       "~/Scripts/skel.min.js",
                       "~/Scripts/util.js",
-                      "~/Scripts/main.js"));
+                      "~/Scripts/main.js",
+                      "~/Scripts/jquery.unobtrusive-ajax.min.js",
+                      "~/Scripts/jquery.validate.min.js",
+                      "~/Scripts/jquery.validate.unobtrusive.js",
+                      "~/Scripts/masonry.pkgd.min.js",
+                      "~/Scripts/jquery.poptrox.min.js"
+                      ));
 
             bundles.Add(new ScriptBundle("~/bundles/dashboard").Include(
                       "~/Scripts/jquery.min.js",
