@@ -23,38 +23,19 @@ namespace FamilyReunionGallery.Models
         public static Bitmap ResizeImage(Image image, int width, int height)
         {
 
-            if (Array.IndexOf(image.PropertyIdList, 274) > -1)
+            int orientationId = 0x0112;
+            var fType = RotateFlipType.RotateNoneFlipNone;
+            if (image.PropertyIdList.Contains(orientationId))
             {
-                int rotationValue = (int)image.GetPropertyItem(274).Value[0];
-                switch (rotationValue)
+                var pItem = image.GetPropertyItem(orientationId);
+                fType = GetRotateFlipTypeByExifOrientationData(pItem.Value[0]);
+                if (fType != RotateFlipType.RotateNoneFlipNone)
                 {
-                    case 1:
-                        break;
-                    case 2:
-                        image.RotateFlip(RotateFlipType.RotateNoneFlipX);
-                        break;
-                    case 3:
-                        image.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                        break;
-                    case 4:
-                        image.RotateFlip(RotateFlipType.Rotate180FlipX);
-                        break;
-                    case 5:
-                        image.RotateFlip(RotateFlipType.Rotate90FlipX);
-                        break;
-                    case 6:
-                        image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                        break;
-                    case 7:
-                        image.RotateFlip(RotateFlipType.Rotate270FlipX);
-                        break;
-                    case 8:
-                        image.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                        break;
+                    image.RotateFlip(fType);
+                    image.RemovePropertyItem(orientationId); 
                 }
-                image.RemovePropertyItem(274);
             }
-            
+
 
             var destRect = new Rectangle(0, 0, width, height);
             var destImage = new Bitmap(width, height);
@@ -400,6 +381,30 @@ namespace FamilyReunionGallery.Models
                 client.S3Client.DeleteObject(request);
             }
 
+        }
+
+        public static RotateFlipType GetRotateFlipTypeByExifOrientationData(int orientation)
+        {
+            switch (orientation)
+            {
+                case 1:
+                default:
+                    return RotateFlipType.RotateNoneFlipNone;
+                case 2:
+                    return RotateFlipType.RotateNoneFlipX;
+                case 3:
+                    return RotateFlipType.Rotate180FlipNone;
+                case 4:
+                    return RotateFlipType.Rotate180FlipX;
+                case 5:
+                    return RotateFlipType.Rotate90FlipX;
+                case 6:
+                    return RotateFlipType.Rotate90FlipNone;
+                case 7:
+                    return RotateFlipType.Rotate270FlipX;
+                case 8:
+                    return RotateFlipType.Rotate270FlipNone;
+            }
         }
     }
 }
