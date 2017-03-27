@@ -98,7 +98,13 @@ namespace FamilyReunionGallery.Models
                 album = GetAlbumImages(album);
                 albums.Add(album);
             }
-
+            foreach(var album in albums)
+            {
+                if(string.IsNullOrEmpty(album.Year))
+                {
+                    album.Year = "2017";
+                }
+            }
             return albums;
         }
 
