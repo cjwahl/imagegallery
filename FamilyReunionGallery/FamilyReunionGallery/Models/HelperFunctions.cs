@@ -16,14 +16,16 @@ using System.Web;
 
 namespace FamilyReunionGallery.Models
 {
-    public class HelperFunctions
+    public static class HelperFunctions
     {
         private static string cs = ConfigurationManager.ConnectionStrings["DbConn"].ConnectionString;
 
         public static Bitmap ResizeImage(Image image, int width, int height)
         {
 
+            
             int orientationId = 0x0112;
+            var property = image.GetPropertyItem(orientationId);
             var fType = RotateFlipType.RotateNoneFlipNone;
             if (image.PropertyIdList.Contains(orientationId))
             {
@@ -237,23 +239,8 @@ namespace FamilyReunionGallery.Models
         {
             if (file != null && file.ContentLength > 0 && file.ContentType.Contains("image"))
             {
-                var directoryExists = Directory.Exists(directory.ToString());
-                var fileExists = File.Exists(string.Concat(directory.ToString(), "\\", name));
-
-                var path = string.Format("{0}\\{1}", directory.ToString(), name);
-                if (!directoryExists)
-                {
-                    Directory.CreateDirectory(directory.ToString());
-                }
-                if (!fileExists)
-                {
-                    file.SaveAs(path);
-                }
-
-                var BitmapStream = File.Open(path, FileMode.Open);
-
-                var img = Image.FromStream(BitmapStream);
-                BitmapStream.Dispose();
+                
+                var img = Image.FromStream(file.InputStream, true, true);
 
                 if (img.Width > img.Height)
                 {
@@ -277,8 +264,7 @@ namespace FamilyReunionGallery.Models
                         img = ResizeImage(img, 768, 1024);
                     }
                 }
-
-                img.Save(path, ImageFormat.Jpeg);
+                
                 string s3Key = "";
                 if (directory.ToString().Contains("thumbs"))
                 {
@@ -293,15 +279,12 @@ namespace FamilyReunionGallery.Models
                     s3Key = string.Format("{0}/{1}", directoryName, name);
                 }
 
-                UploadS3Image(path, s3Key);
-
-                File.Delete(path);
+                UploadS3Image(img, s3Key);
             }
         }
 
-        public static void UploadS3Image(string path, string s3Key)
+        public static void UploadS3Image(Image img, string s3Key)
         {
-            string filePath = path;
             string objectKey = s3Key;
             var client = new AmazonClient();
             using (client.S3Client)
@@ -321,10 +304,10 @@ namespace FamilyReunionGallery.Models
                 using (Stream dataStream = httpRequest.GetRequestStream())
                 {
                     byte[] buffer = new byte[8000];
-                    using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                    using (Stream image = ToStream(img, ImageFormat.Jpeg))
                     {
                         int bytesRead = 0;
-                        while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+                        while ((bytesRead = image.Read(buffer, 0, buffer.Length)) > 0)
                         {
                             dataStream.Write(buffer, 0, bytesRead);
                         }
@@ -333,6 +316,14 @@ namespace FamilyReunionGallery.Models
 
                 HttpWebResponse response = httpRequest.GetResponse() as HttpWebResponse;
             }
+        }
+
+        public static Stream ToStream(this Image image, ImageFormat format)
+        {
+            var stream = new MemoryStream();
+            image.Save(stream, format);
+            stream.Position = 0;
+            return stream;
         }
 
         public static void CreateS3Folder(string folderName)
