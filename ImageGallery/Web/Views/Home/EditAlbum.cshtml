@@ -1,0 +1,85 @@
+﻿@model ImageGallery.Models.EditAlbumViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/uploadcss")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/js")
+    <script>
+        function SubmitForm()
+        {
+            $('form#selectalbumform').submit();
+        }
+        function Delete(album)
+        {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete", "Home")",
+                dataType: "json",
+                contentType: "application/json; charset-utf08",
+                data: '{ album : "'+ album +'"}',
+                success: function (data) {
+                    var removedPicture = document.getElementById(album);
+
+                    removedPicture.parentNode.removeChild(removedPicture);
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <span class="navbar-brand page-scroll">Family Memories</span>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="@Url.Action("EditAlbum")">Edit Album</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="@Url.Action("NewAlbum")">New Album</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="@Url.Action("Upload")">Upload Images</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="@Url.Action("Dashboard")">Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header style="min-height:50%;">
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">Edit Albums</h1>
+                <hr />
+                <p>Select an Album you would like to Edit.</p>
+                <div>
+                    @using (Ajax.BeginForm("EditAlbumResult", "Home", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "results" }, new { @id = "selectalbumform" }))
+                    {
+                        @Html.DropDownListFor(x => x.SelectedAlbum, Model.AlbumDropDown, new { @class = "form-control", @onchange = "SubmitForm()", @style = "margin-left: 32%; max-width: 35%; margin-bottom: 5%;" })
+
+                        <input type="submit" style="display:none" />
+                    }
+                    
+                </div>
+                </div>
+            </div>
+        </header>
+    <div id="results">
+        @Html.Partial("EditAlbumResult")
+        </div>
+</body>
+</html>

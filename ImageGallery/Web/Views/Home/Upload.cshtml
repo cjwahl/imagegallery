@@ -1,0 +1,59 @@
+﻿@model ImageGallery.Models.UploadViewModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    @Styles.Render("~/Content/uploadcss")
+    @Scripts.Render("~/bundles/upload")
+
+   
+</head>
+<body>
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <span class="navbar-brand page-scroll">Family Memories</span>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="@Url.Action("NewAlbum")">New Album</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="@Url.Action("Upload")">Upload Images</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="@Url.Action("Dashboard")">Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">Upload Images</h1>
+                <hr />
+                <p>First Select an Existing Album that you would like to upload images to. Then drag and drop, click or tap to upload images.</p>
+
+                @Html.DropDownListFor(x => x.SelectedAlbum, Model.AlbumDropDown, new { @class = "form-control" , @style = "margin-left: 32%; max-width: 35%; margin-bottom: 5%;" })
+                <div id="dropzone">
+                    <form action="@Url.Action("UploadFile")" method="post" enctype="multipart/form-data" class="dropzone">
+                        <div class="dz-message needsclick">
+                            Drop files here or click to upload.<br>
+                        </div>
+                        <div class="fallback">
+                            <input name="file" type="file" multiple />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+</body>
+</html>

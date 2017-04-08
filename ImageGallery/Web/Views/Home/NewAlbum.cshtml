@@ -1,0 +1,68 @@
+﻿@model ImageGallery.Models.NewAlbumViewModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    @Styles.Render("~/Content/creative")
+</head>
+<body>
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <span class="navbar-brand page-scroll">Family Memories</span>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="@Url.Action("EditAlbum")">Edit Album</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="@Url.Action("NewAlbum")">New Album</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="@Url.Action("Upload")">Upload Images</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="@Url.Action("Dashboard")">Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">Create a New Album</h1>
+                <hr />
+                <p>Create a new Album here, then head of to Upload Images to add images to it!</p>
+                @Model.ErrorMessage
+                @using (Html.BeginForm("NewAlbum", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="form-group">
+                        <label for="title">Album Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Album Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Album Year</label>
+                        <input type="number" class="form-control" name="year" id="year">
+                    </div>
+                    <div class="form-group">
+                        <label class="custom-file">
+                            <label for="file">Image you want to represent the album in the Dashboard</label>
+                            <input type="file" id="file" name="file" class="custom-file-input">
+                            <span class="custom-file-control"></span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-xl page-scroll">Create</button>
+                }
+            </div>
+        </div>
+    </header>
+</body>
+@Scripts.Render("~/bundles/dashboard")
+</html>

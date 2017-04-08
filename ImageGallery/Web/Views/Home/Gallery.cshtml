@@ -1,0 +1,35 @@
+﻿@model ImageGallery.Models.GalleryViewModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Model.Album.AlbumTitle</title>
+    @Styles.Render("~/Content/css")
+    
+</head>
+<body>
+    <div id="wrapper">
+        <header id="header">
+            <h1><strong>@Model.Album.AlbumTitle</strong></h1>
+            <nav>
+                <ul>
+                   <li>@Html.ActionLink("Back to Albums", "Dashboard")</li>
+                </ul>
+            </nav>
+        </header>
+        <div id="main">
+            @for (var i = 0; i < Model.Album.FullImages.Count; i++)
+            {
+                <article class="thumb">
+                    <a href="@string.Concat("https://s3-us-west-2.amazonaws.com/cjwahldotcom-image-storage/", Model.Album.FullImages[i].Key)" class="image"><img src="@string.Concat("https://s3-us-west-2.amazonaws.com/cjwahldotcom-image-storage/", Model.Album.ThumbImages[i].Key)" alt="" /></a>
+                </article>
+            }
+
+        </div>
+    </div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/js")
+</body>
+</html>

@@ -1,0 +1,26 @@
+﻿@model ImageGallery.Models.EditAlbumViewModel
+
+
+
+
+   @if (!string.IsNullOrEmpty(Model.SelectedAlbum))
+   {
+
+       for (var i = 0; i < Model.Album.FullImages.Count; i++)
+       {
+           if (i % 6 == 0 || i == 0)
+           {
+            @:</div>
+            @:<div class="row" style="margin-right:5%; margin-left:2%">
+            }
+        <div class="col-sm-2 grid-item" id="@Model.Album.ThumbImages[i].Key">
+            <img class="delete-image" src="@string.Concat("https://s3-us-west-2.amazonaws.com/cjwahldotcom-image-storage/", Model.Album.ThumbImages[i].Key)" alt="" />
+            <input class="delete" type="button" onclick="Delete('@Model.Album.ThumbImages[i].Key')" value="Delete" />
+        </div>
+
+
+       }
+
+   }
+
+
